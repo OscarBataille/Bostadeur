@@ -28,6 +28,13 @@ class AppCommand extends Command
 
     protected static $defaultName = 'app:run';
 
+    protected $statistics = [
+        'errors' => 0,
+        'success' => 0
+    ];
+
+    protected $available = 0;
+
     /**
      * Constructor
      * @param array $config config of the Application
@@ -50,22 +57,28 @@ class AppCommand extends Command
     {
         while (true) {
 
-            $output->writeln('Start ' . date('H:i:s'));
+             $section1 = $output->section();
+            $section2 = $output->section();
+
+           $section1->writeln('Start ' . date('H:i:s'));
             $result = file_get_contents($this->config['domain'] . 'odata/tenant/PublishEntries?$expand=LeaseOutCase($expand=Address,MainImage,Details)&$orderby=LeaseOutCase/Address/StreetAddress&$count=true&$filter=(ContractType%20eq%20TenantModels.ContractType%27Residence%27)');
 
             if (!$result) {
-                $output->writeln('<error>URL could not be fetched</error>');
-                var_dump($result);
+               $section1->writeln('<error>URL could not be fetched</error>');
+                $this->statistics['errors']++;
+
             } else {
+                $this->statistics['success']++;
+
                 $json = json_decode($result, JSON_OBJECT_AS_ARRAY);
                 if (!empty($json['value'])) {
-                    $output->writeln("\033[31m AVAILABLE !! \033[0m");
+                   $section1->writeln("\033[31m AVAILABLE !! \033[0m");
 
                     foreach ($json['value'] as $key => $objectData) {
 
                         $object = new PublishEntry($objectData);
 
-                        $output->writeln('Price: ' . $object->getCost());
+                       $section1->writeln('Price: ' . $object->getCost());
                         var_dump($json);
 
                         if (!in_array($object->getId(), $this->messageSents)) {
@@ -74,7 +87,7 @@ class AppCommand extends Command
                             shell_exec("spd-say 'APARTMENT AVAILABLE' ");
 
                             // Send sms
-                            $output->writeln('<info>APPARTEMENT dispo ' . $object->getId() . ',  price: ' . $object->getCost() . 'kr., Address: ' . $object->getAddress() . ' ' . $this->config['domain'] . "tenant/dashboard </info>");
+                           $section1->writeln('<info>APPARTEMENT dispo ' . $object->getId() . ',  price: ' . $object->getCost() . 'kr., Address: ' . $object->getAddress() . ' ' . $this->config['domain'] . "tenant/dashboard </info>");
                             $this->message->send('APPARTEMENT dispo ' . $object->getId() . ',  price: ' . $object->getCost() . 'kr., Address: ' . $object->getAddress() . ' ' . $this->config['domain'] . "tenant/dashboard");
 
                             // Open firefoxss
@@ -82,16 +95,18 @@ class AppCommand extends Command
 
                             $this->messageSents[] = $object->getId();
                         } else {
-                            $output->writeln('<comment>Message already sent</comment>');
+                           $section1->writeln('<comment>Message already sent</comment>');
                         }
 
                     }
 
                 } else {
-                    $output->writeln("Not available");
+                   $section1->writeln("Not available");
 
                 }
             }
+
+            $section2->overwrite('Statistics: <error>errors:'.$this->statistics['errors'].'</error>'.' <info>success:'.$this->statistics['success'].'</info>');
 
             sleep(20 + rand(1, 20));
         }

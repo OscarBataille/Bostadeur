@@ -16,16 +16,20 @@ $container = new Container();
 $config = require 'config.php';
 
 (function ($config) {
+
+    $application = new Application('Balticgruppen appartment fetcher', '1.0');
+
+    // SMS service
     $message = new MessageService($config['twilio']['sid'],
         $config['twilio']['token'],
         $config['twilio']['from'],
         $config['twilio']['to']);
 
-    $application = new Application('Balticgruppen appartment fetcher', '1.0');
-
+    //App command
     $application->add(new AppCommand($config, $message));
 
     $application->setDefaultCommand('app:run', true);
+    
     $application->run();
 
 })($config);
