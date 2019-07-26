@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exception\MessageAlreadySentException;
 use GuzzleHttp\Exception\TransferException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -36,8 +37,16 @@ class AppCommand extends Command
         'lastStatus' => null,
     ];
 
+    /**
+     * Number of available apartments
+     * @var integer
+     */
     protected $available = 0;
 
+    /**
+     * The last date when we sent the last query
+     * @var string
+     */
     protected $lastTimeFetched;
 
     /**
@@ -76,14 +85,12 @@ class AppCommand extends Command
             ]);
         $statisticsTable->render();
 
-        $loop = new Loop($section3);
-
-        $loop->setSecondsToWait(5)
+        // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
+        (new Loop($section3))->setSecondsToWait(5)
             ->runAndWait(function () use ($section1, $section2, $statisticsTable) {
 
-                $this->lastTimeFetched = date('H:i:s');
+                $this->lastTimeFetched          = date('H:i:s');
                 $this->statistics['lastStatus'] = '...';
-                //$result                = file_get_contents($this->config['domain'] . 'odata/tenant/PublishEntries?$expand=LeaseOutCase($expand=Address,MainImage,Details)&$orderby=LeaseOutCase/Address/StreetAddress&$count=true&$filter=(ContractType%20eq%20TenantModels.ContractType%27Residence%27)');
 
                 try {
 
@@ -93,6 +100,7 @@ class AppCommand extends Command
                     $this->available                = $result['count'];
                     $this->statistics['lastStatus'] = $result['status'];
 
+                    // If some residence are available
                     if (!empty($result['data'])) {
                         $section1->writeln("<info>AVAILABLE !! </info>");
 
@@ -103,21 +111,15 @@ class AppCommand extends Command
                             $section1->writeln('Price: ' . $object->getCost());
                             var_dump($result);
 
-                            if (!in_array($object->getId(), $this->messageSents)) {
+                            // Warn
+                            try {
+                                $section1->writeln("<info>" . $this->disponibilityStringGenerator($object) . "</info>");
 
-                                // Say it
-                                shell_exec("spd-say 'APARTMENT AVAILABLE' ");
+                                $this->disponibilityHandler($object);
 
-                                // Send sms
-                                $section1->writeln('<info>APPARTEMENT dispo ' . $object->getId() . ',  price: ' . $object->getCost() . 'kr., Address: ' . $object->getAddress() . ' ' . $this->config['domain'] . "tenant/dashboard </info>");
-                                $this->message->send('APPARTEMENT dispo ' . $object->getId() . ',  price: ' . $object->getCost() . 'kr., Address: ' . $object->getAddress() . ' ' . $this->config['domain'] . "tenant/dashboard");
+                            } catch (MessageAlreadySentException $e) {
+                                $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');
 
-                                // Open firefox
-                                shell_exec("/opt/firefox/firefox-bin " . $this->config['domain'] . "tenant/dashboard");
-
-                                $this->messageSents[] = $object->getId();
-                            } else {
-                                $section1->writeln('<comment>Message already sent</comment>');
                             }
 
                         }
@@ -145,6 +147,50 @@ class AppCommand extends Command
 
             });
 
+    }
+
+    /**
+     * Run when an appartment is available.
+     * @param  PublishEntry    $object The available object.
+     * @return void
+     * @throws MessageAlreadySentException
+     */
+    public function disponibilityHandler(PublishEntry $object): void
+    {
+
+        if (!in_array($object->getId(), $this->messageSents)) {
+
+            // // Say it
+            // shell_exec("spd-say 'APARTMENT AVAILABLE'");
+
+            // // Send sms
+            // $this->message->send($this->disponibilityStringGenerator($object));
+
+            // // Open firefox
+            // shell_exec("/opt/firefox/firefox-bin " . $this->config['domain'] . "tenant/dashboard");
+
+            $this->messageSents[] = $object->getId();
+        } else {
+            throw new MessageAlreadySentException();
+        }
+
+    }
+
+    /**
+     * Generate the string that will be set by SMS and logged into the console.
+     * @param  PublishEntry $object Appartement entry.
+     * @return string
+     */
+    public function disponibilityStringGenerator(PublishEntry $object): string
+    {
+        $string =  <<<ENDSTRING
+APPARTEMENT dispo:   {$object->getId()},  
+Price:   {$object->getCost()} kr. 
+Address: {$object->getAddress()}  
+{$this->config['domain']}tenant/dashboard
+ENDSTRING;
+
+        return $string;
     }
 
 }
