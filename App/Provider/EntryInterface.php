@@ -12,4 +12,7 @@ interface EntryInterface
     public function getAddress(): string;
 
     public function getCost(): int;
+
+    public function getUrl(): string;
+    
 }

@@ -27,7 +27,7 @@ class MessageService
         // Your Account SID and Auth Token from twilio.com/console
 
         $client = new Client($this->sid, $this->authToken);
-        $client->messages->create(
+        $message = $client->messages->create(
             // Where to send a text message (your cell phone?)
             $this->toNumber,
             array(
@@ -35,6 +35,8 @@ class MessageService
                 'body' => $message,
             )
         );
+
+        return $message->sid;
 
     }
 }

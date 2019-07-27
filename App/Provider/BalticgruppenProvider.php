@@ -36,23 +36,20 @@ class BalticgruppenProvider extends Provider
         ];
     }
 
+    /**
+     * Fetch the data and return a ProviderResult object
+     * @return ProviderResult 
+     */
     public function getAvailableEntries(): ProviderResult
     {
         $data = $this->fetchAvailableResidence();
 
-        $output = new ProviderResult();
-
-        $output->status = $data['status'];
-        $output->count = $data['count'];
-        $output->value = array_map(function($value) {
-            return new BalticgruppenEntry($value);
-        }, $data['data']);
-
-
-        return $output;
-
-
-
+        return (new ProviderResult())
+            ->setStatus($data['status'])
+            ->setCount($data['count'])
+            ->setValue(array_map(function ($value) {
+                return new BalticgruppenEntry($value);
+            }, $data['data']));
 
     }
 

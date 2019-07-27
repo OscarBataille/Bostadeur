@@ -2,7 +2,6 @@
 
 namespace App\Provider;
 
-
 class BalticgruppenEntry implements EntryInterface
 {
 
@@ -26,7 +25,13 @@ class BalticgruppenEntry implements EntryInterface
         return $address['PropertyId'] . ' ' . $address['StreetAddress'] . ' ' . $address['PostalAddress'];
     }
 
-    public function getCost(): int{
+    public function getCost(): int
+    {
         return (int) $this->data['LeaseOutCase']['Rent'];
+    }
+
+    public function getUrl(): string
+    {
+        return 'https://u4pp.u4a.se/FN667500P/tenant/dashboard';
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Exception\MessageAlreadySentException;
+use App\Provider\Provider;
 use GuzzleHttp\Exception\TransferException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -23,42 +24,24 @@ class AppCommand extends Command
      */
     private $message;
 
-    /**
-     * Array of all the object ids that are already warned.
-     * @var array
-     */
-    private $messageSents = [];
-
     protected static $defaultName = 'app:run';
 
-    protected $statistics = [
-        'errors'     => 0,
-        'success'    => 0,
-        'lastStatus' => null,
-    ];
-
     /**
-     * Number of available apartments
-     * @var integer
+     * Array of providers
+     * @var array of Provider
      */
-    protected $available = 0;
-
-    /**
-     * The last date when we sent the last query
-     * @var string
-     */
-    protected $lastTimeFetched;
+    protected $providers;
 
     /**
      * Constructor
      * @param array $config config of the Application
      */
-    public function __construct(array $config, MessageService $message, APIService $apiService)
+    public function __construct(array $config, MessageService $message, array $providers)
     {
 
-        $this->config     = $config;
-        $this->message    = $message;
-        $this->apiService = $apiService;
+        $this->config    = $config;
+        $this->message   = $message;
+        $this->providers = $providers;
 
         parent::__construct();
     }
@@ -81,7 +64,7 @@ class AppCommand extends Command
             ->setHeaders(['Last time fetched', 'Errors', 'Success', 'Apartement availables'])
             ->setStyle('box')
             ->setRows([
-                [$this->lastTimeFetched, $this->statistics['errors'], $this->statistics['success'], $this->available],
+                ['...', 0, 0, 0],
             ]);
         $statisticsTable->render();
 
@@ -89,50 +72,51 @@ class AppCommand extends Command
         (new Loop($section3))->setSecondsToWait(5)
             ->runAndWait(function () use ($section1, $section2, $statisticsTable) {
 
-                $this->lastTimeFetched          = date('H:i:s');
-                $this->statistics['lastStatus'] = '...';
+                // Build table rows;
+                $tableRows = [];
 
-                try {
+                foreach ($this->providers as $provider) {
+                    try {
+                        $result = $provider->fetch();
 
-                    $result = $this->apiService->fetchAvailableResidence();
+                        // If some residence are available
+                        if ($result->hasAvailable()) {
+                            $section1->writeln("<info>AVAILABLE</info>");
 
-                    $this->statistics['success']++;
-                    $this->available                = $result['count'];
-                    $this->statistics['lastStatus'] = $result['status'];
+                            foreach ($result->value as $key => $object) {
 
-                    // If some residence are available
-                    if (!empty($result['data'])) {
-                        $section1->writeln("<info>AVAILABLE !! </info>");
+                                $section1->writeln('Price: ' . $object->getCost());
+                                var_dump($result);
 
-                        foreach ($result['data'] as $key => $objectData) {
+                                try {
+                                    $section1->writeln("<info>" . $provider->disponibilityStringGenerator($object) . "</info>");
 
-                            $object = new PublishEntry($objectData);
+                                    // Warn
+                                    $provider->disponibilityHandler($object);
 
-                            $section1->writeln('Price: ' . $object->getCost());
-                            var_dump($result);
+                                } catch (MessageAlreadySentException $e) {
+                                    $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');
 
-                            // Warn
-                            try {
-                                $section1->writeln("<info>" . $this->disponibilityStringGenerator($object) . "</info>");
-
-                                $this->disponibilityHandler($object);
-
-                            } catch (MessageAlreadySentException $e) {
-                                $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');
+                                }
 
                             }
 
                         }
+                    } catch (TransferException $e) {
+                        $section1->writeln('<error>URL could not be fetched</error>');
+                        $section1->writeln('<error>' . $e->getMessage() . '</error>');
+                        $provider->addError();
 
+                    } catch (\Exception $e) {
+                        $section1->writeln('<error>' . $e->getMessage() . '</error>');
+                        $provider->addError();
                     }
-                } catch (TransferException $e) {
-                    $section1->writeln('<error>URL could not be fetched</error>');
-                    $section1->writeln('<error>' . $e->getMessage() . '</error>');
-                    $this->statistics['errors']++;
 
-                } catch (\Exception $e) {
-                    $section1->writeln('<error>' . $e->getMessage() . '</error>');
-                    $this->statistics['errors']++;
+                    $tableRows[] = [$provider->getName() . ' ' . $provider->lastTimeFetched . ' status: ' . $provider->statistics['lastStatus'],
+                            $provider->statistics['errors'],
+                            $provider->statistics['success'],
+                            $provider->available,
+                        ];
 
                 }
 
@@ -140,57 +124,11 @@ class AppCommand extends Command
                 $section2->clear();
 
                 $statisticsTable
-                    ->setRows([
-                        [$this->lastTimeFetched . ' status: ' . $this->statistics['lastStatus'], $this->statistics['errors'], $this->statistics['success'], $this->available],
-                    ]);
+                    ->setRows($tableRows);
                 $statisticsTable->render();
 
             });
 
-    }
-
-    /**
-     * Run when an appartment is available.
-     * @param  PublishEntry    $object The available object.
-     * @return void
-     * @throws MessageAlreadySentException
-     */
-    public function disponibilityHandler(PublishEntry $object): void
-    {
-
-        if (!in_array($object->getId(), $this->messageSents)) {
-
-            // // Say it
-            // shell_exec("spd-say 'APARTMENT AVAILABLE'");
-
-            // // Send sms
-            // $this->message->send($this->disponibilityStringGenerator($object));
-
-            // // Open firefox
-            // shell_exec("/opt/firefox/firefox-bin " . $this->config['domain'] . "tenant/dashboard");
-
-            $this->messageSents[] = $object->getId();
-        } else {
-            throw new MessageAlreadySentException();
-        }
-
-    }
-
-    /**
-     * Generate the string that will be set by SMS and logged into the console.
-     * @param  PublishEntry $object Appartement entry.
-     * @return string
-     */
-    public function disponibilityStringGenerator(PublishEntry $object): string
-    {
-        $string =  <<<ENDSTRING
-APPARTEMENT dispo:   {$object->getId()},  
-Price:   {$object->getCost()} kr. 
-Address: {$object->getAddress()}  
-{$this->config['domain']}tenant/dashboard
-ENDSTRING;
-
-        return $string;
     }
 
 }

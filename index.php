@@ -5,10 +5,15 @@ ini_set('max_execution_time', 0);
 // Autoload
 require __DIR__ . '/vendor/autoload.php';
 
-use App\APIService;
+
 use App\AppCommand;
 use App\MessageService;
+use App\Provider\BalticgruppenProvider;
+use App\Provider\DiosProvider;
+
+
 use DI\ContainerBuilder;
+
 use Symfony\Component\Console\Application;
 
 // Config
@@ -21,16 +26,18 @@ $builder->addDefinitions([
             $config['twilio']['from'],
             $config['twilio']['to']);
     },
-    AppCommand::class         => function (MessageService $messageService, APIService $apiService) use ($config) {
-        return new AppCommand($config, $messageService, $apiService);
+    AppCommand::class         => function (MessageService $messageService, DiosProvider $dios, BalticgruppenProvider $balticgruppen ) use ($config) {
+        return new AppCommand($config, $messageService, [$dios, $balticgruppen]);
     },
     \GuzzleHttp\Client::class => function () use ($config) {
 
         return new \GuzzleHttp\Client([
             // Base URI is used with relative requests
             'base_uri' => $config['domain'],
+            'timeout'  => 5.0,
         ]);
     },
+
 ]);
 
 $container = $builder->build();
