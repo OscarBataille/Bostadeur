@@ -61,7 +61,7 @@ class AppCommand extends Command
         $statisticsTable = new Table($section2);
         $statisticsTable
             ->setHeaderTitle('Statistics')
-            ->setHeaders(['Last time fetched', 'Errors', 'Success', 'Apartement availables'])
+            ->setHeaders(['Provider', 'Last time fetched', 'Last status', 'Errors', 'Success', 'Apartement availables'])
             ->setStyle('box')
             ->setRows([
                 ['...', 0, 0, 0],
@@ -112,7 +112,10 @@ class AppCommand extends Command
                         $provider->addError();
                     }
 
-                    $tableRows[] = [$provider->getName() . ' ' . $provider->lastTimeFetched . ' status: ' . $provider->statistics['lastStatus'],
+                    $tableRows[] = [
+                        $provider->getName(),
+                        $provider->lastTimeFetched,
+                        $provider->statistics['lastStatus'],
                         $provider->statistics['errors'],
                         $provider->statistics['success'],
                         $provider->available,

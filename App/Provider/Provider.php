@@ -51,7 +51,10 @@ abstract class Provider
 
     public function getName()
     {
-        return static::class;
+        $reflection = new \ReflectionClass($this);
+
+         return preg_replace('~Provider$~', '', $reflection->getShortName());
+
     }
 
     public function addError()
