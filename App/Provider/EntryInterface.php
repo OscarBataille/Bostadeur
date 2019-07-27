@@ -5,8 +5,6 @@ namespace App\Provider;
 interface EntryInterface
 {
 
-
-
     public function getId(): int;
 
     public function getAddress(): string;
@@ -14,5 +12,5 @@ interface EntryInterface
     public function getCost(): int;
 
     public function getUrl(): string;
-    
+
 }

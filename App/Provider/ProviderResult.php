@@ -2,6 +2,9 @@
 
 namespace App\Provider;
 
+/**
+ * Represent the result of Provider::getAvailableEntries()
+ */
 class ProviderResult
 {
 
@@ -23,6 +26,10 @@ class ProviderResult
      */
     public $value;
 
+    /**
+     * Set the HTTP status of the result
+     * @param int $status 
+     */
     public function setStatus(int $status): self
     {
 
@@ -31,6 +38,10 @@ class ProviderResult
         return $this;
     }
 
+    /**
+     * Set the number of available objects
+     * @param int $count 
+     */
     public function setCount(int $count): self
     {
 
@@ -39,6 +50,10 @@ class ProviderResult
         return $this;
     }
 
+    /**
+     * Set the value
+     * @param array $data Array of EntryInterface
+     */
     public function setValue(array $data): self
     {
         $this->value = (function (EntryInterface ...$entry) {
@@ -49,6 +64,10 @@ class ProviderResult
 
     }
 
+    /**
+     * Return true if there is some available appartments.
+     * @return boolean 
+     */
     public function hasAvailable(): bool{
         return !empty($this->value);
     }

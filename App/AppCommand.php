@@ -113,10 +113,10 @@ class AppCommand extends Command
                     }
 
                     $tableRows[] = [$provider->getName() . ' ' . $provider->lastTimeFetched . ' status: ' . $provider->statistics['lastStatus'],
-                            $provider->statistics['errors'],
-                            $provider->statistics['success'],
-                            $provider->available,
-                        ];
+                        $provider->statistics['errors'],
+                        $provider->statistics['success'],
+                        $provider->available,
+                    ];
 
                 }
 

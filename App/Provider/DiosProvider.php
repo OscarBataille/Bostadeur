@@ -27,13 +27,10 @@ class DiosProvider extends Provider
 
         $json = json_decode($body, JSON_OBJECT_AS_ARRAY);
 
-
-
         // Filter the city here
         $data = array_filter($json, function ($entry) {
             return preg_match('/ume(å|Å)/i', $entry['city']);
         });
-
 
         return (new ProviderResult())
             ->setStatus($status)

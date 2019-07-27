@@ -2,7 +2,6 @@
 
 namespace App\Provider;
 
-
 class DiosEntry implements EntryInterface
 {
 
@@ -24,13 +23,13 @@ class DiosEntry implements EntryInterface
         return $this->data['name'];
     }
 
-    public function getCost(): int{
+    public function getCost(): int
+    {
         return (int) $this->data['rent'];
     }
 
-
     public function getUrl(): string
     {
-        return 'https://www.dios.se'. $this->data['url'];
+        return 'https://www.dios.se' . $this->data['url'];
     }
 }

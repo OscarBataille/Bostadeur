@@ -38,7 +38,7 @@ class BalticgruppenProvider extends Provider
 
     /**
      * Fetch the data and return a ProviderResult object
-     * @return ProviderResult 
+     * @return ProviderResult
      */
     public function getAvailableEntries(): ProviderResult
     {

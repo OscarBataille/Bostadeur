@@ -4,6 +4,10 @@ namespace App\Provider;
 
 use App\Exception\MessageAlreadySentException;
 
+/**
+ * Abstract class Provider that must be extended and must implement getAvailableEntries().
+ * this allow different datasources.
+ */
 abstract class Provider
 {
 
