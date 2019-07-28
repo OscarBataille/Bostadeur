@@ -7,10 +7,14 @@ class BalticgruppenEntry implements EntryInterface
 
     protected $data;
 
-    public function __construct(array $data)
+    protected $domain;
+
+    public function __construct(array $data, string $domain)
     {
 
         $this->data = $data;
+
+        $this->domain = $domain;
     }
 
     public function getId(): int
@@ -32,6 +36,6 @@ class BalticgruppenEntry implements EntryInterface
 
     public function getUrl(): string
     {
-        return 'https://u4pp.u4a.se/FN667500P/tenant/dashboard';
+        return $this->domain . 'tenant/dashboard';
     }
 }

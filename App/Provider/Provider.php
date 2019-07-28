@@ -97,7 +97,8 @@ abstract class Provider
     public function disponibilityStringGenerator(EntryInterface $object): string
     {
         $string = <<<ENDSTRING
-APPARTEMENT dispo:   {$object->getId()},
+
+APPARTEMENT dispo: {$this->getName()} {$object->getId()},
 Price:   {$object->getCost()} kr.
 Address: {$object->getAddress()}
 Url: {$object->getUrl()}

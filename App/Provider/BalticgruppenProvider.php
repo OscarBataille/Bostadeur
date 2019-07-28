@@ -13,15 +13,20 @@ class BalticgruppenProvider extends Provider
      */
     private $client;
 
-    public function __construct(HTTPClient $client)
+    private $endpoint;
+    private $domain;
+
+    public function __construct(HTTPClient $client, string $domain, string $endpoint)
     {
         $this->client = $client;
+        $this->endpoint = $endpoint;
+        $this->domain = $domain;
     }
 
     public function fetchAvailableResidence(): array
     {
 
-        $response = $this->client->request('GET', 'odata/tenant/PublishEntries?$expand=LeaseOutCase($expand=Address,MainImage,Details)&$orderby=LeaseOutCase/Address/StreetAddress&$count=true&$filter=(ContractType%20eq%20TenantModels.ContractType%27Residence%27)');
+        $response = $this->client->request('GET', $this->domain . $this->endpoint);
 
         $status = $response->getStatusCode(); // 200
 
@@ -31,7 +36,7 @@ class BalticgruppenProvider extends Provider
 
         return [
             'status' => $status,
-            'count'  => $json['@odata.count'],
+            'count'  => $json['@odata.count'] ?? 0,
             'data'   => $json['value'],
         ];
     }
@@ -48,7 +53,7 @@ class BalticgruppenProvider extends Provider
             ->setStatus($data['status'])
             ->setCount($data['count'])
             ->setValue(array_map(function ($value) {
-                return new BalticgruppenEntry($value);
+                return new BalticgruppenEntry($value, $this->domain);
             }, $data['data']));
 
     }

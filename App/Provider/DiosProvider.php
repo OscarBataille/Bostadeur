@@ -12,14 +12,16 @@ class DiosProvider extends Provider
      */
     private $client;
 
-    public function __construct(HTTPClient $client)
+    public function __construct(HTTPClient $client, string $domain, string $url)
     {
         $this->client = $client;
+        $this->domain = $domain;
+        $this->url = $url;
     }
 
     public function getAvailableEntries(): ProviderResult
     {
-        $response = $this->client->request('GET', 'https://www.dios.se/api/bostad');
+        $response = $this->client->request('GET', $this->domain . $this->url);
 
         $status = $response->getStatusCode(); // 200
 
