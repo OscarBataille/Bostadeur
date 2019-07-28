@@ -3,6 +3,8 @@
 namespace App\Provider;
 
 use \GuzzleHttp\Client as HTTPClient;
+use App\Entry\DiosEntry;
+use App\Entry\EntryInterface;
 
 class DiosProvider extends Provider
 {
@@ -16,7 +18,7 @@ class DiosProvider extends Provider
     {
         $this->client = $client;
         $this->domain = $domain;
-        $this->url = $url;
+        $this->url    = $url;
     }
 
     public function getAvailableEntries(): ProviderResult

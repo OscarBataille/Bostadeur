@@ -2,6 +2,7 @@
 
 namespace App\Provider;
 
+use App\Entry\BalticgruppenEntry;
 use \GuzzleHttp\Client as HTTPClient;
 
 class BalticgruppenProvider extends Provider
@@ -18,9 +19,9 @@ class BalticgruppenProvider extends Provider
 
     public function __construct(HTTPClient $client, string $domain, string $endpoint)
     {
-        $this->client = $client;
+        $this->client   = $client;
         $this->endpoint = $endpoint;
-        $this->domain = $domain;
+        $this->domain   = $domain;
     }
 
     public function fetchAvailableResidence(): array
@@ -37,7 +38,7 @@ class BalticgruppenProvider extends Provider
         return [
             'status' => $status,
             'count'  => $json['@odata.count'] ?? 0,
-            'data'   => $json['value'],
+            'data'   => $json['value'] ?? [],
         ];
     }
 

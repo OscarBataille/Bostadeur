@@ -2,6 +2,7 @@
 
 namespace App\Provider;
 
+use App\Entry\EntryInterface;
 use App\Exception\MessageAlreadySentException;
 
 /**
@@ -53,7 +54,7 @@ abstract class Provider
     {
         $reflection = new \ReflectionClass($this);
 
-         return preg_replace('~Provider$~', '', $reflection->getShortName());
+        return preg_replace('~Provider$~', '', $reflection->getShortName());
 
     }
 
@@ -73,7 +74,7 @@ abstract class Provider
 
         if (!in_array($object->getId(), $this->messageSents)) {
 
-            // // // Say it
+            // // // // Say it
             shell_exec("spd-say 'APARTMENT AVAILABLE'");
 
             // Send sms

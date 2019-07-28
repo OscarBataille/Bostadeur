@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Provider;
+namespace App\Entry;
 
 class DiosEntry implements EntryInterface
 {
