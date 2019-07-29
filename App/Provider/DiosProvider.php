@@ -2,9 +2,9 @@
 
 namespace App\Provider;
 
-use \GuzzleHttp\Client as HTTPClient;
 use App\Entry\DiosEntry;
-use App\Entry\EntryInterface;
+use App\MessageService;
+use GuzzleHttp\Client as HTTPClient;
 
 class DiosProvider extends Provider
 {
@@ -14,11 +14,13 @@ class DiosProvider extends Provider
      */
     private $client;
 
-    public function __construct(HTTPClient $client, string $domain, string $url)
+    public function __construct(HTTPClient $client, MessageService $message, string $domain, string $url)
     {
         $this->client = $client;
         $this->domain = $domain;
         $this->url    = $url;
+
+        parent::__construct($message);
     }
 
     public function getAvailableEntries(): ProviderResult

@@ -4,6 +4,7 @@ namespace App\Provider;
 
 use App\Entry\EntryInterface;
 use App\Exception\MessageAlreadySentException;
+use App\MessageService;
 
 /**
  * Abstract class Provider that must be extended and must implement getAvailableEntries().
@@ -11,6 +12,15 @@ use App\Exception\MessageAlreadySentException;
  */
 abstract class Provider
 {
+    /**
+     * Message sender.
+     * @var MessageService
+     */
+    protected $message;
+
+    public function __construct(MessageService $message){
+        $this->message = $message;
+    }
 
     public $statistics = [
         'errors'     => 0,
