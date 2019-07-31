@@ -33,7 +33,7 @@ public function getAvailableEntries(): ProviderResult
             }, $data));
 
     }
-
+```
 ### EntryInterface
 The method getAvailableEntries must return an instance of ProviderResult which contains an array of App\Entry\EntryInterface, so you will also need to create a class that implements EntryInterface ( in App\Entry for example).
 ```php
@@ -75,7 +75,6 @@ class DiosEntry implements EntryInterface
 
 ```
 
-```
 2. Create a factory for that provider in App\ProviderFactory that exentends AbstractProviderFactory and implement the method make()
 3. Add the config in config.php under 'providers': 
 ```php
