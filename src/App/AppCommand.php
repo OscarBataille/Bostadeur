@@ -53,7 +53,9 @@ class AppCommand extends Command
         $this->setDescription('Poll the each provider\'s API and send an SMS.')
             ->setDefinition(
                 new InputDefinition([
-                    new InputOption('seconds-to-wait', 's', InputOption::VALUE_OPTIONAL,'Number of seconds to wait between each API poll.', 5),
+                    new InputOption('seconds-to-wait', 's', InputOption::VALUE_OPTIONAL, 'Number of seconds to wait between each API poll.', 5),
+                    new InputOption('dry-run', null, InputOption::VALUE_NONE, 'If we should an SMS.'),
+
                 ])
             );
     }
@@ -78,7 +80,7 @@ class AppCommand extends Command
         // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
         (new Loop($section3))
             ->setSecondsToWait($input->getOption('seconds-to-wait'))
-            ->runAndWait(function ($loop) use ($section1, $section2, $statisticsTable) {
+            ->runAndWait(function ($loop) use ($section1, $section2, $statisticsTable, $input) {
 
                 // Build table rows;
                 $tableRows = [];
@@ -99,8 +101,14 @@ class AppCommand extends Command
                                 try {
                                     $section1->writeln("<info>" . $provider->disponibilityStringGenerator($object) . "</info>");
 
-                                    // Warn if not first execution of the loop
-                                    $provider->disponibilityHandler($object, $loop->hasRunOnce());
+                                    if (!$input->getOption('dry-run')) {
+                                        // Warn if not first execution of the loop
+                                        $provider->disponibilityHandler($object, $loop->hasRunOnce());
+
+                                    } else {
+                                        $section1->writeln("<info> Dry run</info>");
+
+                                    }
 
                                 } catch (MessageAlreadySentException $e) {
                                     $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');

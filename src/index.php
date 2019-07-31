@@ -49,7 +49,7 @@ $container = $builder->build();
 
 (function ($config, $container) {
 
-    $application = new Application('UmeaBostad', '1.0');
+    $application = new Application('SverigeBostad', '1.0');
 
     //App command
     $application->add($container->get(AppCommand::class));
