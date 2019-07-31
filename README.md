@@ -82,9 +82,9 @@ class DiosEntry implements EntryInterface
 
 ```
 
-2. Create a factory for that provider in App\ProviderFactory that exentends AbstractProviderFactory and implement the abstract method make() (which return an instance of the provider).
+2. Create a factory for that provider in ```App\ProviderFactory``` that exentends ```AbstractProviderFactory``` and implement the abstract method ```make()``` (which return an instance of the provider).
 
-3. Add the config in config.php under 'providers': 
+3. Add the config in ```config.php``` under 'providers': 
 ```php
   \App\Provider\DiosProvider::class          => [
             'factory'     => \App\ProviderFactory\DiosFactory::class,
