@@ -5,8 +5,8 @@ It is based on [symfony/console](https://github.com/symfony/console).
 ![Image](/static/carbon.png)
 
 # Usage
-1. Download the source: ```git clone https://github.com/OscarBataille/UmeaBostad```
-2. Install the required composer packages: ```cd UmeaBostad/src && composer install```
+1. Download the source: ```git clone https://github.com/OscarBataille/Bostader```
+2. Install the required composer packages: ```cd Bostader/src && composer install```
 3. Run with ```php index.php``` in the 'src' folder.
 
 ## Options
