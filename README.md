@@ -1,6 +1,6 @@
 # Bostader
 PHP CLI Framework to aggregate available appartments of private owners and notify by SMS with the Twilio API.
-It is based on [symfony/console](https://github.com/symfony/console)
+It is based on [symfony/console](https://github.com/symfony/console).
 
 ![Image](/static/carbon.png)
 
