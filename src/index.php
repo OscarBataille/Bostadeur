@@ -36,7 +36,7 @@ $builder->addDefinitions([
     \GuzzleHttp\Client::class    => function () use ($config) {
 
         return new \GuzzleHttp\Client([
-            'timeout'  => 5.0,
+            'timeout' => 5.0,
         ]);
     },
     'config'                     => $config,
@@ -49,7 +49,7 @@ $container = $builder->build();
 
 (function ($config, $container) {
 
-    $application = new Application('Balticgruppen appartment fetcher', '1.0');
+    $application = new Application('UmeaBostad', '1.0');
 
     //App command
     $application->add($container->get(AppCommand::class));

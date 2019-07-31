@@ -46,7 +46,7 @@ class Loop
 
         while (true) {
 
-            $function();
+            $function($this);
 
             $this->setRunOnce();
 

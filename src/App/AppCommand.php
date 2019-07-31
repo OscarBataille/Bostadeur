@@ -69,10 +69,9 @@ class AppCommand extends Command
         $statisticsTable->render();
 
         // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
-        $loop = new Loop($section3);
-
-        $loop->setSecondsToWait(5)
-            ->runAndWait(function () use ($section1, $section2, $statisticsTable,  $loop) {
+        (new Loop($section3))
+            ->setSecondsToWait(5)
+            ->runAndWait(function ($loop) use ($section1, $section2, $statisticsTable) {
 
                 // Build table rows;
                 $tableRows = [];
@@ -83,7 +82,7 @@ class AppCommand extends Command
 
                         // If some residence are available
                         if ($result->hasAvailable()) {
-                           // $section1->writeln("<info>AVAILABLE</info>");
+                            // $section1->writeln("<info>AVAILABLE</info>");
 
                             foreach ($result->value as $key => $object) {
 
