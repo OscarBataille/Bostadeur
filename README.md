@@ -7,7 +7,7 @@ Aggregate available appartments of private owners in Umeå and notify by SMS wit
 2. ...
  
 # Add a provider/ residence owner
-1. Create a class that extends App\Provider (like BalticgruppenProvider or DiosProvider). That class needs to implement the method getAvailableEntries(). That method will be called on each loop execution.
+1. Create a class that extends the abstract class App\Provider\Provider (like BalticgruppenProvider or DiosProvider). That class needs to implement the method getAvailableEntries(). That method will be called on each loop execution.
 ```php
 ...
 public function getAvailableEntries(): ProviderResult
@@ -35,7 +35,7 @@ public function getAvailableEntries(): ProviderResult
     }
 ```
 ### EntryInterface
-The method getAvailableEntries must return an instance of ProviderResult which contains an array of App\Entry\EntryInterface, so you will also need to create a class that implements EntryInterface ( in App\Entry for example).
+The method ```getAvailableEntries()``` must return an instance of ```ProviderResult``` which contains an array of ```App\Entry\EntryInterface```, so you will also need to create a class that implements ```EntryInterface``` ( in ```App\Entry``` for example).
 ```php
 <?php
 
