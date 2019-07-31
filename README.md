@@ -9,32 +9,8 @@ Aggregate available appartments of private owners in Umeå and notify by SMS wit
 # Add a provider/ residence owner
 1. Create a class that extends App\Provider (like BalticgruppenProvider or DiosProvider). That class needs to implement the method getAvailableEntries(). The method getAvailableEntries must return an instance of ProviderResult.
 ```php
-<?php
-
-namespace App\Provider;
-
-use App\Entry\DiosEntry;
-use App\MessageService;
-use GuzzleHttp\Client as HTTPClient;
-
-class DiosProvider extends Provider
-{
-
-    /** Http client
-     * @var GuzzleHttp\Client
-     */
-    private $client;
-
-    public function __construct(HTTPClient $client, MessageService $message, string $domain, string $url)
-    {
-        $this->client = $client;
-        $this->domain = $domain;
-        $this->url    = $url;
-
-        parent::__construct($message);
-    }
-
-    public function getAvailableEntries(): ProviderResult
+...
+getAvailableEntries(): ProviderResult
     {
         $response = $this->client->request('GET', $this->domain . $this->url);
 
