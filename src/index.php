@@ -52,7 +52,7 @@ $container = $builder->build();
 
 (function ($config, $container) {
 
-    $application = new Application('SverigeBostad', '1.0');
+    $application = new Application('Bostadeur', '1.0');
 
     //App command
     $application->add($container->get(AppCommand::class));

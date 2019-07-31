@@ -1,5 +1,5 @@
 {
-    "name": "oscar/bostader",
+    "name": "oscar/bostadeur",
     "type": "project",
     "require": {
         "twilio/sdk": "^5.34",
