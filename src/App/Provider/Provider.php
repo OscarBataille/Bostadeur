@@ -18,7 +18,8 @@ abstract class Provider
      */
     protected $message;
 
-    public function __construct(MessageService $message){
+    public function __construct(MessageService $message)
+    {
         $this->message = $message;
     }
 
@@ -75,23 +76,27 @@ abstract class Provider
     }
     /**
      * Run when an appartment is available.
-     * @param  EntryInterface    $object The available object.
+     * @param  EntryInterface    $object       The available object.
+     * @param  boolean           $sendMessage  Flag to warn or not.
      * @return void
      * @throws MessageAlreadySentException
      */
-    public function disponibilityHandler(EntryInterface $object): void
+    public function disponibilityHandler(EntryInterface $object, bool $sendMessage = true): void
     {
 
         if (!in_array($object->getId(), $this->messageSents)) {
 
-            // // // // Say it
-            shell_exec("spd-say 'APARTMENT AVAILABLE'");
+            if ($sendMessage) {
+                // // // // Say it
+                shell_exec("spd-say 'APARTMENT AVAILABLE'");
 
-            // Send sms
-            $this->message->send($this->disponibilityStringGenerator($object));
+                // Send sms
+                $this->message->send($this->disponibilityStringGenerator($object));
 
-            // Open firefox
-            shell_exec("/opt/firefox/firefox-bin " . $object->getUrl());
+                // Open firefox
+                shell_exec("/opt/firefox/firefox-bin " . $object->getUrl());
+
+            }
 
             $this->messageSents[] = $object->getId();
         } else {
@@ -109,7 +114,7 @@ abstract class Provider
     {
         $string = <<<ENDSTRING
 
-APPARTEMENT dispo: {$this->getName()} {$object->getId()},
+APARTEMENT available: {$this->getName()} {$object->getId()},
 Price:   {$object->getCost()} kr.
 Address: {$object->getAddress()}
 Url: {$object->getUrl()}

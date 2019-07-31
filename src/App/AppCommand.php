@@ -69,8 +69,10 @@ class AppCommand extends Command
         $statisticsTable->render();
 
         // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
-        (new Loop($section3))->setSecondsToWait(5)
-            ->runAndWait(function () use ($section1, $section2, $statisticsTable) {
+        $loop = new Loop($section3);
+
+        $loop->setSecondsToWait(5)
+            ->runAndWait(function () use ($section1, $section2, $statisticsTable,  $loop) {
 
                 // Build table rows;
                 $tableRows = [];
@@ -81,18 +83,18 @@ class AppCommand extends Command
 
                         // If some residence are available
                         if ($result->hasAvailable()) {
-                            $section1->writeln("<info>AVAILABLE</info>");
+                           // $section1->writeln("<info>AVAILABLE</info>");
 
                             foreach ($result->value as $key => $object) {
 
-                                $section1->writeln('Price: ' . $object->getCost());
-                                var_dump($result);
+                                // $section1->writeln('Price: ' . $object->getCost());
+                                // var_dump($result);
 
                                 try {
                                     $section1->writeln("<info>" . $provider->disponibilityStringGenerator($object) . "</info>");
 
-                                    // Warn
-                                    $provider->disponibilityHandler($object);
+                                    // Warn if not first execution of the loop
+                                    $provider->disponibilityHandler($object, $loop->hasRunOnce());
 
                                 } catch (MessageAlreadySentException $e) {
                                     $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');

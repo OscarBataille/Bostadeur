@@ -13,7 +13,17 @@ class Loop
      */
     private $output;
 
+    /**
+     * Seconds to wait betwwen each loop execution.
+     * @var integer
+     */
     private $secondsToWait = 0;
+
+    /**
+     * Is first loop execution
+     * @var boolean
+     */
+    private $isFirstExecution = true;
 
     /**
      * Get the ection to output Sleep...
@@ -38,10 +48,20 @@ class Loop
 
             $function();
 
+            $this->setRunOnce();
+
             $this->output->overwrite('Sleep...');
 
             sleep($this->secondsToWait);
             $this->output->clear();
         }
+    }
+
+    public function setRunOnce(){
+        $this->isFirstExecution = false;
+    }
+
+    public function hasRunOnce(): bool{
+        return !$this->isFirstExecution;
     }
 }
