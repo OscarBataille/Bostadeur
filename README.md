@@ -1,5 +1,5 @@
 # UmeaBostad
-Aggregate available appartments of private owners in Umeå and notify by SMS with the Twilio API.
+Framework to aggregate available appartments of private owners in Umeå and notify by SMS with the Twilio API.
 
 ![Image](/static/carbon.png)
 
