@@ -18,6 +18,8 @@ use Symfony\Component\Console\Application;
 // Config
 $config  = require 'config.php';
 $builder = new \DI\ContainerBuilder();
+
+// DI config
 $builder->addDefinitions([
     MessageService::class        => function () use ($config) {
         return new MessageService($config['twilio']['sid'],

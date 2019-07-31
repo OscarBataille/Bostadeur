@@ -4,11 +4,16 @@ Framework to aggregate available appartments of private owners and notify by SMS
 ![Image](/static/carbon.png)
 
 # Usage
-1. Download the source
-2. ...
- 
+1. Download the source: ```git clone https://github.com/OscarBataille/UmeaBostad```
+2. Install the required composer packages: ```cd UmeaBostad/src && composer install```
+3. Run with ```php index.php``` in the 'src' folder.
+
+## Options
+- ```--dry-run``` : Does not send an SMS.
+- ```--seconds-to-wait=5``` : Number of seconds to wait between each loop execution. Default to 5.
+
 # Add a provider/ residence owner
-1. Create a class that extends the abstract class App\Provider\Provider (like BalticgruppenProvider or DiosProvider). That class needs to implement the method getAvailableEntries(). That method will be called on each loop execution.
+1. Create a class that extends the abstract class ```App\Provider\Provider``` (like BalticgruppenProvider or DiosProvider). That class needs to implement the method ```getAvailableEntries()```. That method will be called on each loop execution.
 ```php
 ...
 public function getAvailableEntries(): ProviderResult
