@@ -7,7 +7,9 @@ use App\Provider\Provider;
 use GuzzleHttp\Exception\TransferException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AppCommand extends Command
@@ -48,7 +50,12 @@ class AppCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Poll the balticgruppen API and send an SMS.');
+        $this->setDescription('Poll the each provider\'s API and send an SMS.')
+            ->setDefinition(
+                new InputDefinition([
+                    new InputOption('seconds-to-wait', 's', InputOption::VALUE_OPTIONAL,'Number of seconds to wait between each API poll.', 5),
+                ])
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -70,7 +77,7 @@ class AppCommand extends Command
 
         // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
         (new Loop($section3))
-            ->setSecondsToWait(5)
+            ->setSecondsToWait($input->getOption('seconds-to-wait'))
             ->runAndWait(function ($loop) use ($section1, $section2, $statisticsTable) {
 
                 // Build table rows;
