@@ -1,6 +1,7 @@
 # UmeaBostad
 Aggregate available appartments of private owners in Umeå and notify by SMS with the Twilio API.
 
+![Image](/static/carbon.png)
 
 # Usage
 1. Download the source
@@ -85,7 +86,6 @@ class DiosEntry implements EntryInterface
             'apiEndpoint' => 'api/bostad',
         ],
 ```
-![Image](/static/carbon.png)
 
 
 
