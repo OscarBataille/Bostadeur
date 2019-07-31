@@ -22,10 +22,11 @@ $builder = new \DI\ContainerBuilder();
 // DI config
 $builder->addDefinitions([
     MessageService::class        => function () use ($config) {
-        return new MessageService($config['twilio']['sid'],
-            $config['twilio']['token'],
-            $config['twilio']['from'],
-            $config['twilio']['to']);
+        return new MessageService(
+            getenv('TWILIO_SID'),
+            getenv('TWILIO_TOKEN'),
+            getenv('TWILIO_FROM'),
+            getenv('TWILIO_TO'));
     },
     AppCommand::class            => function (MessageService $messageService, ContainerInterface $container) use ($config) {
         //Make the providers

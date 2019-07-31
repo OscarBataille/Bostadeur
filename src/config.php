@@ -1,5 +1,8 @@
 <?php
 
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
+$dotenv->required(['TWILIO_TOKEN', 'TWILIO_SID', 'TWILIO_TO', 'TWILIO_FROM']);
 return [
     'providers' => [
         \App\Provider\BalticgruppenProvider::class => [
@@ -13,10 +16,5 @@ return [
             'apiEndpoint' => 'api/bostad',
         ],
     ],
-    'twilio'    => [
-        'sid'   => 'AC69df257d00521bee4c1439a7854ea4fe',
-        'token' => '61e22785fe2845664d75b619f3ce66d3',
-        'from'  => '+46790645167',
-        'to'    => '+46793360007',
-    ],
+
 ];
