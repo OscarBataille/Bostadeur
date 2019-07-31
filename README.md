@@ -10,7 +10,7 @@ Aggregate available appartments of private owners in Umeå and notify by SMS wit
 1. Create a class that extends App\Provider (like BalticgruppenProvider or DiosProvider). That class needs to implement the method getAvailableEntries(). The method getAvailableEntries must return an instance of ProviderResult.
 ```php
 ...
-getAvailableEntries(): ProviderResult
+public function getAvailableEntries(): ProviderResult
     {
         $response = $this->client->request('GET', $this->domain . $this->url);
 
@@ -34,7 +34,7 @@ getAvailableEntries(): ProviderResult
 
     }
 
-}
+
 
 ```
 2. Create a factory for that provider in App\ProviderFactory that exentends AbstractProviderFactory and implement the method make()
