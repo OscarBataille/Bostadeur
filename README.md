@@ -80,7 +80,7 @@ class DiosProvider extends Provider
 
 ```
 ### ProviderResult and EntryInterface
-The method ```getAvailableEntries()``` must return an instance of ```App\Provider\ProviderResult``` which contains an array of ```App\Entry\EntryInterface``` (in the $value property) , so you will also need to create a class that implements ```EntryInterface``` to represents each residence object. The method getId() of that class must return an unique id that will be used to keep track of the already sent SMS.
+The method ```getAvailableEntries()``` must return an instance of ```App\Provider\ProviderResult``` which contains an array of ```App\Entry\EntryInterface``` (in the $value property) , so you will also need to create a class that implements ```EntryInterface``` to represents each residence object. The method ```getId()``` of that class must return an unique id that will be used to keep track of the already sent SMS.
 ```php
 <?php
 
