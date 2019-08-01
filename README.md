@@ -18,8 +18,8 @@ It is based on [symfony/console](https://github.com/symfony/console).
 # Requirements
 - PHP >= 7.2.19
 - Composer
-- spd-say binary to shout 'APARTMENT AVAILABLE'
-- /opt/firefox/firefox-bin to open firefox at the good page
+- ```spd-say``` binary to shout 'APARTMENT AVAILABLE'
+- ```/opt/firefox/firefox-bin``` to open firefox at the good page
 
 # Add a provider/ residence owner
 1. Create a class that extends the abstract class ```App\Provider\Provider``` (like BalticgruppenProvider or DiosProvider). That class needs to implement the method ```getAvailableEntries()```. That method will be called on each loop execution.
