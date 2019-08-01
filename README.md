@@ -6,8 +6,11 @@ It is based on [symfony/console](https://github.com/symfony/console).
 
 # Usage
 1. Download the source: ```git clone https://github.com/OscarBataille/Bostadeur```
-2. Install the required composer packages: ```cd Bostadeur/src && composer install```
-3. Run with ```php index.php``` in the 'src' folder.
+2. Move to the downloaded directory: ```cd Bostadeur/src```
+3. Copy ```.env.example``` to ```.env```: ```cp .env.example .env```
+4. Edit  ```.env``` to add your twilio config. 
+5. Install the required composer packages: ```composer install```
+6. Run with ```php index.php``` in the 'src' folder.
 
 ## Options
 - ```--dry-run``` : Does not send an SMS.
@@ -16,10 +19,11 @@ It is based on [symfony/console](https://github.com/symfony/console).
 # Requirements
 - PHP >= 7.2.19
 - Composer
-- spd-say binary to shout 'APARTMENT AVAILABLE'
-- /opt/firefox/firefox-bin to open firefox at the good page
+- ```spd-say``` binary to shout 'APARTMENT AVAILABLE'
+- ```/opt/firefox/firefox-bin``` to open firefox at the good page
 
 # Add a provider/ residence owner
+### Provider
 1. Create a class that extends the abstract class ```App\Provider\Provider``` (like BalticgruppenProvider or DiosProvider). That class needs to implement the method ```getAvailableEntries()```. That method will be called on each loop execution.
 ```php
 ...
@@ -47,7 +51,7 @@ public function getAvailableEntries(): ProviderResult
 
     }
 ```
-### EntryInterface
+### ProviderResult and EntryInterface
 The method ```getAvailableEntries()``` must return an instance of ```App\Provider\ProviderResult``` which contains an array of ```App\Entry\EntryInterface``` (in the $value property) , so you will also need to create a class that implements ```EntryInterface``` to represents each residence object. The method getId() of that class must return an unique id that will be used to keep track of the already sent SMS.
 ```php
 <?php
@@ -87,8 +91,31 @@ class DiosEntry implements EntryInterface
 }
 
 ```
-
+### Provider factory
 2. Create a factory for that provider in ```App\ProviderFactory``` that exentends ```AbstractProviderFactory``` and implement the abstract method ```make()``` (which return an instance of the provider).
+```php
+<?php
+namespace App\ProviderFactory;
+
+use App\Provider\DiosProvider;
+use App\Provider\Provider;
+use App\MessageService;
+
+class DiosFactory extends AbstractProviderFactory
+{
+
+    public function make(array $config): Provider
+    {
+        $providerConfig = $config[DiosProvider::class];
+        return new DiosProvider($this->container->get(\GuzzleHttp\Client::class),$this->container->get(MessageService::class), $providerConfig['domain'],  $providerConfig['apiEndpoint']);
+        
+
+
+    }
+}
+
+```
+### Config.php
 
 3. Add the config in ```config.php``` under 'providers': 
 ```php
