@@ -23,6 +23,7 @@ It is based on [symfony/console](https://github.com/symfony/console).
 - ```/opt/firefox/firefox-bin``` to open firefox at the good page
 
 # Add a provider/ residence owner
+### Provider
 1. Create a class that extends the abstract class ```App\Provider\Provider``` (like BalticgruppenProvider or DiosProvider). That class needs to implement the method ```getAvailableEntries()```. That method will be called on each loop execution.
 ```php
 ...
@@ -90,7 +91,7 @@ class DiosEntry implements EntryInterface
 }
 
 ```
-
+### Provider factory
 2. Create a factory for that provider in ```App\ProviderFactory``` that exentends ```AbstractProviderFactory``` and implement the abstract method ```make()``` (which return an instance of the provider).
 ```php
 <?php
@@ -113,6 +114,7 @@ class DiosFactory extends AbstractProviderFactory
     }
 }
 
+### Config.php
 ```
 3. Add the config in ```config.php``` under 'providers': 
 ```php
