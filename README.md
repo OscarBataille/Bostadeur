@@ -6,9 +6,10 @@ It is based on [symfony/console](https://github.com/symfony/console).
 
 # Usage
 1. Download the source: ```git clone https://github.com/OscarBataille/Bostadeur```
-2. Copy ```.env.example``` to ```.env``` and edit  ```.env``` to add your twilio config: ```cp .env.example .env```
-3. Install the required composer packages: ```cd Bostadeur/src && composer install```
-4. Run with ```php index.php``` in the 'src' folder.
+2. Copy ```.env.example``` to ```.env```: ```cp .env.example .env```
+3. Edit  ```.env``` to add your twilio config. 
+4. Install the required composer packages: ```cd Bostadeur/src && composer install```
+5. Run with ```php index.php``` in the 'src' folder.
 
 ## Options
 - ```--dry-run``` : Does not send an SMS.
