@@ -1,8 +1,14 @@
 <?php
+use Dotenv\Exception\ValidationException;
 
 $dotenv = Dotenv\Dotenv::create(__DIR__);
 $dotenv->load();
+try{
 $dotenv->required(['TWILIO_TOKEN', 'TWILIO_SID', 'TWILIO_TO', 'TWILIO_FROM']);
+
+}catch(ValidationException $e){
+    throw new Exception('The twilio configuration is missing in the .env file.');    
+}
 return [
     'providers' => [
         \App\Provider\BalticgruppenProvider::class => [
