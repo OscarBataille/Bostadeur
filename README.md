@@ -1,6 +1,6 @@
 # Bostadeur
 PHP CLI Framework to aggregate available appartments from different sources and notify by SMS with the Twilio API.
-It is based on [symfony/console](https://github.com/symfony/console).
+It is based on [symfony/console](https://github.com/symfony/console). It also automatically open firefox at the correct URL and shout 'APARTMENT AVAILABLE' with spd-say.
 
 ![Image](/static/carbon.png)
 
