@@ -51,7 +51,7 @@ public function getAvailableEntries(): ProviderResult
 
     }
 ```
-### EntryInterface
+### ProviderResult and EntryInterface
 The method ```getAvailableEntries()``` must return an instance of ```App\Provider\ProviderResult``` which contains an array of ```App\Entry\EntryInterface``` (in the $value property) , so you will also need to create a class that implements ```EntryInterface``` to represents each residence object. The method getId() of that class must return an unique id that will be used to keep track of the already sent SMS.
 ```php
 <?php
@@ -114,8 +114,9 @@ class DiosFactory extends AbstractProviderFactory
     }
 }
 
-### Config.php
 ```
+### Config.php
+
 3. Add the config in ```config.php``` under 'providers': 
 ```php
   \App\Provider\DiosProvider::class          => [
