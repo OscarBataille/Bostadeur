@@ -27,7 +27,32 @@ It is based on [symfony/console](https://github.com/symfony/console). It also au
 1. Create a class that extends the abstract class ```App\Provider\Provider``` (like BalticgruppenProvider or DiosProvider). That class needs to implement the method ```getAvailableEntries()```. That method will be called on each loop execution.
 ```php
 ...
-public function getAvailableEntries(): ProviderResult
+<?php
+
+namespace App\Provider;
+
+use App\Entry\DiosEntry;
+use App\MessageService;
+use GuzzleHttp\Client as HTTPClient;
+
+class DiosProvider extends Provider
+{
+
+    /** Http client
+     * @var GuzzleHttp\Client
+     */
+    private $client;
+
+    public function __construct(HTTPClient $client, MessageService $message, string $domain, string $url)
+    {
+        $this->client = $client;
+        $this->domain = $domain;
+        $this->url    = $url;
+
+        parent::__construct($message);
+    }
+
+    public function getAvailableEntries(): ProviderResult
     {
         $response = $this->client->request('GET', $this->domain . $this->url);
 
@@ -50,6 +75,9 @@ public function getAvailableEntries(): ProviderResult
             }, $data));
 
     }
+
+}
+
 ```
 ### ProviderResult and EntryInterface
 The method ```getAvailableEntries()``` must return an instance of ```App\Provider\ProviderResult``` which contains an array of ```App\Entry\EntryInterface``` (in the $value property) , so you will also need to create a class that implements ```EntryInterface``` to represents each residence object. The method getId() of that class must return an unique id that will be used to keep track of the already sent SMS.
