@@ -91,7 +91,27 @@ class DiosEntry implements EntryInterface
 ```
 
 2. Create a factory for that provider in ```App\ProviderFactory``` that exentends ```AbstractProviderFactory``` and implement the abstract method ```make()``` (which return an instance of the provider).
+```php
+namespace App\ProviderFactory;
 
+use App\Provider\DiosProvider;
+use App\Provider\Provider;
+use App\MessageService;
+
+class DiosFactory extends AbstractProviderFactory
+{
+
+    public function make(array $config): Provider
+    {
+        $providerConfig = $config[DiosProvider::class];
+        return new DiosProvider($this->container->get(\GuzzleHttp\Client::class),$this->container->get(MessageService::class), $providerConfig['domain'],  $providerConfig['apiEndpoint']);
+        
+
+
+    }
+}
+
+```
 3. Add the config in ```config.php``` under 'providers': 
 ```php
   \App\Provider\DiosProvider::class          => [
