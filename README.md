@@ -92,6 +92,7 @@ class DiosEntry implements EntryInterface
 
 2. Create a factory for that provider in ```App\ProviderFactory``` that exentends ```AbstractProviderFactory``` and implement the abstract method ```make()``` (which return an instance of the provider).
 ```php
+<?php
 namespace App\ProviderFactory;
 
 use App\Provider\DiosProvider;
