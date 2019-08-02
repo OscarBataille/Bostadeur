@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\ProviderFactory;
 
@@ -21,7 +22,6 @@ abstract class AbstractProviderFactory
         $config = $container->get('config');
 
         $this->providerConfig = $config['providers'];
-
     }
 
     public function create(): Provider
@@ -36,5 +36,4 @@ abstract class AbstractProviderFactory
      * @return Provider
      */
     abstract public function make(array $config): Provider;
-
 }

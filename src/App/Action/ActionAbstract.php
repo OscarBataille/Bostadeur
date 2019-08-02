@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Action;
 
@@ -13,7 +14,7 @@ abstract class ActionAbstract
     {
         $this->config = $config;
     }
-    
+
     abstract public function run(EntryInterface $object, Provider $provider);
 
     public function getName()
@@ -21,7 +22,5 @@ abstract class ActionAbstract
         $reflection = new \ReflectionClass($this);
 
         return preg_replace('~Action$~', '', $reflection->getShortName());
-
     }
-
 }

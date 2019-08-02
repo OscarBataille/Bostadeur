@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -68,19 +69,17 @@ abstract class Provider
         $reflection = new \ReflectionClass($this);
 
         return preg_replace('~Provider$~', '', $reflection->getShortName());
-
     }
 
     public function addError()
     {
         $this->statistics['errors']++;
-
     }
     /**
      * Run when an appartment is available.
      *
      * @param  EntryInterface $object      The available object.
-     * @param  boolean        $sendMessage Flag to warn or not.
+     * @param bool $sendMessage Flag to warn or not.
      * @return void
      * @throws MessageAlreadySentException
      */
@@ -88,18 +87,14 @@ abstract class Provider
     {
 
         if (!in_array($object->getId(), $this->messageSents)) {
-
             if ($sendMessage) {
-
                 $this->actionExecutor->run($object, $this);
-
             }
 
             $this->messageSents[] = $object->getId();
         } else {
             throw new MessageAlreadySentException();
         }
-
     }
 
     /**

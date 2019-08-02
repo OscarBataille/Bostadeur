@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<ruleset name="Bostadeur">
+    <description>Bostdaeur standard</description>
+    <config name="installed_paths" value="../../slevomat/coding-standard/SlevomatCodingStandard/"/>
+   
+    <!-- enforce strict types -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes" >
+        <properties>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Check if classname equal filename -->
+    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+    <properties>
+        <property name="rootNamespaces" type="array">
+            <element key="App" value="App"/>
+        </property>
+    </properties>
+    </rule>
+
+    <!-- fix return type to be after 1 space and no spqce before colon -->
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" >
+    <properties>
+        <property name="spacesCountBeforeColon" value="0" />
+    </properties>
+    </rule>
+   
+    <!-- Force use of === instead of ==-->
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
+
+    <!-- Remove yoda comparison -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison" />
+
+    <!-- Remove assigment in if conditions -->
+    <rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition" />
+    
+    <!-- Namespace style --> 
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing" >
+    <properties>
+        <property name="linesCountBeforeNamespace" value="1" />
+        <property name="linesCountAfterNamespace"  value="1" /> 
+    </properties>
+    </rule>
+
+    <!-- Spacing style --> 
+    <rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing" >
+    <properties>
+        <property name="linesCountBeforeFirstUse" value="1" />
+        <property name="linesCountBetweenUseTypes"  value="0" /> 
+        <property name="linesCountAfterUseTypes"  value="1" /> 
+    </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.PHP.TypeCast" />
+    <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash" />
+    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine" />
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
+
+    <!-- display progress -->
+    <arg value="p"/>
+    <arg name="colors"/>
+
+    <!-- inherit rules from: -->
+    <rule ref="PSR2"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="false"/>
+        </properties>
+    </rule>
+
+    <!-- Paths to check -->
+    <file>App</file>
+</ruleset>

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -18,7 +19,6 @@ class SMSService
         $this->authToken  = $authToken;
         $this->fromNumber = $fromNumber;
         $this->toNumber   = $toNumber;
-
     }
 
     public function send(string $message)
@@ -30,13 +30,12 @@ class SMSService
         $message = $client->messages->create(
             // Where to send a text message (your cell phone?)
             $this->toNumber,
-            array(
+            [
                 'from' => $this->fromNumber,
                 'body' => $message,
-            )
+            ]
         );
 
         return $message->sid;
-
     }
 }

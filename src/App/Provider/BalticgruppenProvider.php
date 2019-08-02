@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -37,7 +38,6 @@ class BalticgruppenProvider extends Provider
         $this->url    = $url;
 
         parent::__construct($actionExecutor);
-
     }
 
     public function fetchAvailableResidence(): array
@@ -49,7 +49,7 @@ class BalticgruppenProvider extends Provider
 
         $body = (string) $response->getBody();
 
-        $json = json_decode($body, JSON_OBJECT_AS_ARRAY);
+        $json = json_decode($body, true);
 
         return [
             'status' => $status,
@@ -74,10 +74,9 @@ class BalticgruppenProvider extends Provider
                 array_map(
                     function ($value) {
                         return new BalticgruppenEntry($value, $this->domain);
-                    }, $data['data']
+                    },
+                    $data['data']
                 )
             );
-
     }
-
 }

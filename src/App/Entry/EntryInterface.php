@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entry;
 
@@ -12,5 +13,4 @@ interface EntryInterface
     public function getCost(): int;
 
     public function getUrl(): string;
-
 }

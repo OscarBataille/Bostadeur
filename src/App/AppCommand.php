@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -96,7 +97,6 @@ class AppCommand extends Command
                                 // $section1->writeln("<info>AVAILABLE</info>");
 
                                 foreach ($result->value as $key => $object) {
-
                                     // $section1->writeln('Price: ' . $object->getCost());
                                     // var_dump($result);
 
@@ -106,25 +106,18 @@ class AppCommand extends Command
                                         if (!$input->getOption('dry-run')) {
                                             // Warn if not first execution of the loop
                                             $provider->disponibilityHandler($object, $loop->hasRunOnce());
-
                                         } else {
                                             $section1->writeln("<info> Dry run</info>");
-
                                         }
-
                                     } catch (MessageAlreadySentException $e) {
                                         $section1->writeln('<comment>Message already sent (id: ' . $object->getId() . ')</comment>');
-
                                     }
-
                                 }
-
                             }
                         } catch (TransferException $e) {
                             $section1->writeln('<error>URL could not be fetched</error>');
                             $section1->writeln('<error>' . $e->getMessage() . '</error>');
                             $provider->addError();
-
                         } catch (\Exception $e) {
                             $section1->writeln('<error>' . $e->getMessage() . '</error>');
                             $provider->addError();
@@ -138,7 +131,6 @@ class AppCommand extends Command
                         $provider->statistics['success'],
                         $provider->available,
                         ];
-
                     }
 
                     //Clear the section 2 to rhe table.
@@ -147,10 +139,7 @@ class AppCommand extends Command
                     $statisticsTable
                     ->setRows($tableRows);
                     $statisticsTable->render();
-
                 }
             );
-
     }
-
 }

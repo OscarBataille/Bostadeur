@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\ProviderFactory;
 
@@ -12,6 +13,5 @@ class BalticgruppenFactory extends AbstractProviderFactory
     {
         $providerConfig = $config[BalticgruppenProvider::class];
         return new BalticgruppenProvider($this->container->get(\GuzzleHttp\Client::class), $this->container->get(\App\Action\ActionExecutor::class), $providerConfig['domain'], $providerConfig['apiEndpoint']);
-
     }
 }

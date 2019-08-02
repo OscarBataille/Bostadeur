@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -20,7 +21,7 @@ class ProviderResult
     /**
      * Count of results
      *
-     * @var integer
+     * @var int
      */
     public $count = 0;
 
@@ -69,13 +70,12 @@ class ProviderResult
         })(...$data);
 
         return $this;
-
     }
 
     /**
      * Return true if there is some available appartments.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAvailable(): bool
     {

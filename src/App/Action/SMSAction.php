@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Action;
 
@@ -18,6 +19,5 @@ class SMSAction extends ActionAbstract
     {
         // Send sms
         $this->smsService->send($provider->disponibilityStringGenerator($object));
-
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -37,7 +38,6 @@ class DiosProvider extends Provider
         $this->url    = $url;
 
         parent::__construct($actionExecutor);
-
     }
 
     public function getAvailableEntries(): ProviderResult
@@ -48,11 +48,12 @@ class DiosProvider extends Provider
 
         $body = (string) $response->getBody();
 
-        $json = json_decode($body, JSON_OBJECT_AS_ARRAY);
+        $json = json_decode($body, true);
 
         // Filter the city here
         $data = array_filter(
-            $json, function ($entry) {
+            $json,
+            function ($entry) {
                 return preg_match('/ume(å|Å)/i', $entry['city']);
             }
         );
@@ -64,10 +65,9 @@ class DiosProvider extends Provider
                 array_map(
                     function ($value) {
                         return new DiosEntry($value);
-                    }, $data
+                    },
+                    $data
                 )
             );
-
     }
-
 }

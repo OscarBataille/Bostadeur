@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -17,14 +18,14 @@ class Loop
     /**
      * Seconds to wait betwwen each loop execution.
      *
-     * @var integer
+     * @var int
      */
     private $secondsToWait = 0;
 
     /**
      * Is first loop execution
      *
-     * @var boolean
+     * @var bool
      */
     private $isFirstExecution = true;
 
@@ -54,7 +55,6 @@ class Loop
     {
 
         while (true) {
-
             $function($this);
 
             $this->setRunOnce();
