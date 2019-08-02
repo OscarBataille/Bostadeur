@@ -21,12 +21,14 @@ abstract class Provider
 
     /**
      * The last date when we sent the last query
+     *
      * @var string
      */
     public $lastTimeFetched;
 
     /**
      * Array of all the object ids that are already warned.
+     *
      * @var array
      */
     private $messageSents = [];
@@ -44,6 +46,7 @@ abstract class Provider
     }
     /**
      * Wrap getAvailableEntries to get the statistics
+     *
      * @return ProviderResult
      */
     final public function fetch(): ProviderResult
@@ -75,8 +78,9 @@ abstract class Provider
     }
     /**
      * Run when an appartment is available.
-     * @param  EntryInterface    $object       The available object.
-     * @param  boolean           $sendMessage  Flag to warn or not.
+     *
+     * @param  EntryInterface $object      The available object.
+     * @param  boolean        $sendMessage Flag to warn or not.
      * @return void
      * @throws MessageAlreadySentException
      */
@@ -100,6 +104,7 @@ abstract class Provider
 
     /**
      * Generate the string that will be set by SMS and logged into the console.
+     *
      * @param  EntryInterface $object Appartement entry.
      * @return string
      */

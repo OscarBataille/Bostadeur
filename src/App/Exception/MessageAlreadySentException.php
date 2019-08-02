@@ -4,6 +4,7 @@ namespace  App\Exception;
 
 use Exception;
 
-class MessageAlreadySentException extends Exception {
+class MessageAlreadySentException extends Exception
+{
     
 }

@@ -11,6 +11,7 @@ abstract class AbstractProviderFactory
 
     /**
      * Container
+     *
      * @var ContainerInterface
      */
     protected $container;
@@ -30,7 +31,8 @@ abstract class AbstractProviderFactory
 
     /**
      * Make method, must be implemented.
-     * @param  array  $config All the config.
+     *
+     * @param  array $config All the config.
      * @return Provider
      */
     abstract public function make(array $config): Provider;

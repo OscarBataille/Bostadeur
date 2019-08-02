@@ -9,19 +9,23 @@ use GuzzleHttp\Client as HTTPClient;
 class DiosProvider extends Provider
 {
 
-    /** Http client
+    /**
+     * Http client
+     *
      * @var GuzzleHttp\Client
      */
     private $client;
 
-   /**
+    /**
      * Endpoint of the API.
+     *
      * @var string
      */
     private $endpoint;
 
     /**
      * API domain
+     *
      * @var string
      */
     private $url;
@@ -47,16 +51,22 @@ class DiosProvider extends Provider
         $json = json_decode($body, JSON_OBJECT_AS_ARRAY);
 
         // Filter the city here
-        $data = array_filter($json, function ($entry) {
-            return preg_match('/ume(å|Å)/i', $entry['city']);
-        });
+        $data = array_filter(
+            $json, function ($entry) {
+                return preg_match('/ume(å|Å)/i', $entry['city']);
+            }
+        );
 
         return (new ProviderResult())
             ->setStatus($status)
             ->setCount(count($data))
-            ->setValue(array_map(function ($value) {
-                return new DiosEntry($value);
-            }, $data));
+            ->setValue(
+                array_map(
+                    function ($value) {
+                        return new DiosEntry($value);
+                    }, $data
+                )
+            );
 
     }
 

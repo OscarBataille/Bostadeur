@@ -11,18 +11,21 @@ class BalticgruppenProvider extends Provider
 
     /**
      * Http client
+     *
      * @var GuzzleHttp\Client
      */
     private $client;
 
     /**
      * Endpoint of the API.
+     *
      * @var string
      */
     private $endpoint;
 
     /**
      * API domain
+     *
      * @var string
      */
     private $domain;
@@ -57,6 +60,7 @@ class BalticgruppenProvider extends Provider
 
     /**
      * Fetch the data and return a ProviderResult object
+     *
      * @return ProviderResult
      */
     public function getAvailableEntries(): ProviderResult
@@ -66,9 +70,13 @@ class BalticgruppenProvider extends Provider
         return (new ProviderResult())
             ->setStatus($data['status'])
             ->setCount($data['count'])
-            ->setValue(array_map(function ($value) {
-                return new BalticgruppenEntry($value, $this->domain);
-            }, $data['data']));
+            ->setValue(
+                array_map(
+                    function ($value) {
+                        return new BalticgruppenEntry($value, $this->domain);
+                    }, $data['data']
+                )
+            );
 
     }
 

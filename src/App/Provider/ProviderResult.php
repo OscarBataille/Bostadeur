@@ -12,24 +12,28 @@ class ProviderResult
 
     /**
      * Request status
+     *
      * @var intl
      */
     public $status;
 
     /**
      * Count of results
+     *
      * @var integer
      */
     public $count = 0;
 
     /**
      * Array of EntryInterface
+     *
      * @var array
      */
     public $value;
 
     /**
      * Set the HTTP status of the result
+     *
      * @param int $status
      */
     public function setStatus(int $status): self
@@ -42,6 +46,7 @@ class ProviderResult
 
     /**
      * Set the number of available objects
+     *
      * @param int $count
      */
     public function setCount(int $count): self
@@ -54,6 +59,7 @@ class ProviderResult
 
     /**
      * Set the value
+     *
      * @param array $data Array of EntryInterface
      */
     public function setValue(array $data): self
@@ -68,6 +74,7 @@ class ProviderResult
 
     /**
      * Return true if there is some available appartments.
+     *
      * @return boolean
      */
     public function hasAvailable(): bool

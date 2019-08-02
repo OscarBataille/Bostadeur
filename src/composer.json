@@ -12,5 +12,8 @@
         "psr-4": {
             "App\\": "App/"
         }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.4"
     }
 }

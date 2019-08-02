@@ -9,24 +9,28 @@ class Loop
 
     /**
      * Output
+     *
      * @var OutputInterface
      */
     private $output;
 
     /**
      * Seconds to wait betwwen each loop execution.
+     *
      * @var integer
      */
     private $secondsToWait = 0;
 
     /**
      * Is first loop execution
+     *
      * @var boolean
      */
     private $isFirstExecution = true;
 
     /**
      * Get the ection to output Sleep...
+     *
      * @param OutputInterface $output COnsole output section.
      */
     public function __construct(OutputInterface $output)
@@ -43,7 +47,8 @@ class Loop
 
     /**
      * Infinite loop and wait the number of seconds specified
-     * @param  callable $function The fuction to execute.
+     *
+     * @param callable $function The fuction to execute.
      */
     public function runAndWait(callable $function)
     {
@@ -61,11 +66,13 @@ class Loop
         }
     }
 
-    public function setRunOnce(){
+    public function setRunOnce()
+    {
         $this->isFirstExecution = false;
     }
 
-    public function hasRunOnce(): bool{
+    public function hasRunOnce(): bool
+    {
         return !$this->isFirstExecution;
     }
 }
