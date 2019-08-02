@@ -5,9 +5,9 @@ It is based on [symfony/console](https://github.com/symfony/console).
 ![Image](/static/carbon.png)
 
 # Current Actions
-- Twilio SMS notification.
-- Open firefox at the object URL.
-- Play sound with ```spd-say```
+- ```SMSAction```: Twilio SMS notification.
+- ```OpenFirefoxAction```:Open firefox at the object URL.
+- ```SoundAction```:Play sound with ```spd-say```
 
 # Usage
 1. Download the source: ```git clone https://github.com/OscarBataille/Bostadeur```
