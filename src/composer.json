@@ -15,6 +15,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4",
-        "slevomat/coding-standard": "^5.0"
+        "slevomat/coding-standard": "^5.0",
+        "overtrue/phplint": "^1.1"
     }
 }
