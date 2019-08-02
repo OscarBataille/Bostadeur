@@ -157,5 +157,34 @@ class DiosFactory extends AbstractProviderFactory
 ```
 
 
+# Add an Action
+1. Create a new class in ```App\Action``` that extends ```App\Action\ActionAbstract``` and implement the ```run()``` method.
+
+```php 
+<?php
+
+namespace App\Action;
+
+use App\Entry\EntryInterface;
+use App\Provider\Provider;
+
+class SoundAction extends ActionAbstract
+{
+
+    public function run(EntryInterface $object, Provider $provider)
+    {
+        //  Say it
+        shell_exec("spd-say ". $this->config['text']);
+    }
+}
+
+```
+2. Register that Action in the ```config.php``` under 'actions'. You can access the configuration in the instance with ```$this->config```.
+```php
+  \App\Action\SoundAction::class => [
+            'text' => 'APARTEMENT AVAILABLE'
+    ],
+```
+
 
 
