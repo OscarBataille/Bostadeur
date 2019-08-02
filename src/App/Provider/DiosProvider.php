@@ -14,7 +14,16 @@ class DiosProvider extends Provider
      */
     private $client;
 
-    private $domain;
+   /**
+     * Endpoint of the API.
+     * @var string
+     */
+    private $endpoint;
+
+    /**
+     * API domain
+     * @var string
+     */
     private $url;
 
     public function __construct(HTTPClient $client, ActionExecutor $actionExecutor, string $domain, string $url)

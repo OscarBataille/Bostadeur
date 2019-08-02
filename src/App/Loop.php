@@ -41,6 +41,10 @@ class Loop
         return $this;
     }
 
+    /**
+     * Infinite loop and wait the number of seconds specified
+     * @param  callable $function The fuction to execute.
+     */
     public function runAndWait(callable $function)
     {
 

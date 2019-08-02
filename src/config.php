@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'name'      => 'Bostadeur',
+    'version'   => '1.1',
     'providers' => [
         \App\Provider\BalticgruppenProvider::class => [
             'factory'     => \App\ProviderFactory\BalticgruppenFactory::class,
@@ -13,17 +15,18 @@ return [
             'apiEndpoint' => 'api/bostad',
         ],
     ],
-    'actions' => [
+    'actions'   => [
         \App\Action\OpenFirefoxAction::class => [
-            'binary' => '/opt/firefox/firefox-bin'
+            'binary' => '/opt/firefox/firefox-bin',
         ],
         // Comment that part if you do not need TWILIO SMS
-        \App\Action\SMSAction::class => [// Config in .env],
-        \App\Action\SoundAction::class => [
-            'text' => 'APARTEMENT AVAILABLE'
+        \App\Action\SMSAction::class         => [
+            // Config in .env
+        ],
+        \App\Action\SoundAction::class       => [
+            'text' => 'APARTEMENT AVAILABLE',
         ],
 
-
-    ]
+    ],
 
 ];

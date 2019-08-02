@@ -15,7 +15,16 @@ class BalticgruppenProvider extends Provider
      */
     private $client;
 
+    /**
+     * Endpoint of the API.
+     * @var string
+     */
     private $endpoint;
+
+    /**
+     * API domain
+     * @var string
+     */
     private $domain;
 
     public function __construct(HTTPClient $client, ActionExecutor $actionExecutor, string $domain, string $url)

@@ -20,8 +20,6 @@ class AppCommand extends Command
      */
     private $config;
 
-
-
     protected static $defaultName = 'app:run';
 
     /**
@@ -34,7 +32,7 @@ class AppCommand extends Command
      * Constructor
      * @param array $config config of the Application
      */
-    public function __construct(array $config,  array $providers)
+    public function __construct(array $config, array $providers)
     {
 
         $this->config    = $config;
@@ -80,6 +78,7 @@ class AppCommand extends Command
                 // Build table rows;
                 $tableRows = [];
 
+                // Loop througheach provider
                 foreach ($this->providers as $provider) {
                     try {
                         $result = $provider->fetch();

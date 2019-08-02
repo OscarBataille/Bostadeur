@@ -80,7 +80,7 @@ $container->get(\Dotenv\Dotenv::class)->load();
 
 (function ($config, $container) {
 
-    $application = new Application('Bostadeur', '1.0');
+    $application = new Application($config['name'], $config['version']);
 
     //App command
     $application->add($container->get(AppCommand::class));
