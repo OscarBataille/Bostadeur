@@ -35,8 +35,8 @@ It is based on [symfony/console](https://github.com/symfony/console).
 
 namespace App\Provider;
 
+use App\Action\ActionExecutor;
 use App\Entry\DiosEntry;
-use App\MessageService;
 use GuzzleHttp\Client as HTTPClient;
 
 class DiosProvider extends Provider
@@ -47,13 +47,26 @@ class DiosProvider extends Provider
      */
     private $client;
 
-    public function __construct(HTTPClient $client, MessageService $message, string $domain, string $url)
+   /**
+     * Endpoint of the API.
+     * @var string
+     */
+    private $endpoint;
+
+    /**
+     * API domain
+     * @var string
+     */
+    private $url;
+
+    public function __construct(HTTPClient $client, ActionExecutor $actionExecutor, string $domain, string $url)
     {
         $this->client = $client;
         $this->domain = $domain;
         $this->url    = $url;
 
-        parent::__construct($message);
+        parent::__construct($actionExecutor);
+
     }
 
     public function getAvailableEntries(): ProviderResult
@@ -81,6 +94,7 @@ class DiosProvider extends Provider
     }
 
 }
+
 
 ```
 ### ProviderResult and EntryInterface
