@@ -1,7 +1,6 @@
 # Bostadeur
 PHP CLI Framework to aggregate available appartments from different sources and execute actions when a new apartment is available.
-It is based on [symfony/console](https://github.com/symfony/console). It also automatically open firefox at the correct URL and shout 'APARTMENT AVAILABLE' with spd-say.
-
+It is based on [symfony/console](https://github.com/symfony/console). 
 ![Image](/static/carbon.png)
 
 # Current Actions
