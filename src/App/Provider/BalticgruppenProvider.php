@@ -2,8 +2,8 @@
 
 namespace App\Provider;
 
+use App\Action\ActionExecutor;
 use App\Entry\BalticgruppenEntry;
-use App\MessageService;
 use GuzzleHttp\Client as HTTPClient;
 
 class BalticgruppenProvider extends Provider
@@ -18,13 +18,14 @@ class BalticgruppenProvider extends Provider
     private $endpoint;
     private $domain;
 
-    public function __construct(HTTPClient $client, MessageService $message, string $domain, string $endpoint)
+    public function __construct(HTTPClient $client, ActionExecutor $actionExecutor, string $domain, string $url)
     {
-        $this->client   = $client;
-        $this->endpoint = $endpoint;
-        $this->domain   = $domain;
+        $this->client = $client;
+        $this->domain = $domain;
+        $this->url    = $url;
 
-        parent::__construct($message);
+        parent::__construct($actionExecutor);
+
     }
 
     public function fetchAvailableResidence(): array

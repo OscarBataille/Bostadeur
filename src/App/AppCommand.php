@@ -20,11 +20,7 @@ class AppCommand extends Command
      */
     private $config;
 
-    /**
-     * Message sender
-     * @var MessageService
-     */
-    private $message;
+
 
     protected static $defaultName = 'app:run';
 
@@ -38,11 +34,10 @@ class AppCommand extends Command
      * Constructor
      * @param array $config config of the Application
      */
-    public function __construct(array $config, MessageService $message, array $providers)
+    public function __construct(array $config,  array $providers)
     {
 
         $this->config    = $config;
-        $this->message   = $message;
         $this->providers = $providers;
 
         parent::__construct();

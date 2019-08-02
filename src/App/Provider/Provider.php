@@ -2,9 +2,9 @@
 
 namespace App\Provider;
 
+use App\Action\ActionExecutor;
 use App\Entry\EntryInterface;
 use App\Exception\MessageAlreadySentException;
-use App\MessageService;
 
 /**
  * Abstract class Provider that must be extended and must implement getAvailableEntries().
@@ -12,16 +12,6 @@ use App\MessageService;
  */
 abstract class Provider
 {
-    /**
-     * Message sender.
-     * @var MessageService
-     */
-    protected $message;
-
-    public function __construct(MessageService $message)
-    {
-        $this->message = $message;
-    }
 
     public $statistics = [
         'errors'     => 0,
@@ -41,8 +31,17 @@ abstract class Provider
      */
     private $messageSents = [];
 
+    /**
+     * @var ActionExecutor
+     */
+    protected $actionExecutor;
+
     abstract public function getAvailableEntries(): ProviderResult;
 
+    public function __construct(ActionExecutor $actionExecutor)
+    {
+        $this->actionExecutor = $actionExecutor;
+    }
     /**
      * Wrap getAvailableEntries to get the statistics
      * @return ProviderResult
@@ -87,14 +86,8 @@ abstract class Provider
         if (!in_array($object->getId(), $this->messageSents)) {
 
             if ($sendMessage) {
-                // // // // Say it
-                shell_exec("spd-say 'APARTMENT AVAILABLE'");
 
-                // Send sms
-                $this->message->send($this->disponibilityStringGenerator($object));
-
-                // Open firefox
-                shell_exec("/opt/firefox/firefox-bin " . $object->getUrl());
+                $this->actionExecutor->run($object, $this);
 
             }
 

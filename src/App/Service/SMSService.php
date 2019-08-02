@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Service;
 
 use Twilio\Rest\Client;
 
-class MessageService
+class SMSService
 {
 
     protected $sid;
