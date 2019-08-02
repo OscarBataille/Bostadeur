@@ -17,9 +17,8 @@ return [
         \App\Action\OpenFirefoxAction::class => [
             'binary' => '/opt/firefox/firefox-bin'
         ],
-        \App\Action\SMSAction::class => [
-            // Config in .env
-        ],
+        // Comment that part if you do not need TWILIO SMS
+        \App\Action\SMSAction::class => [// Config in .env],
         \App\Action\SoundAction::class => [
             'text' => 'APARTEMENT AVAILABLE'
         ],
