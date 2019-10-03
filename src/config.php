@@ -20,9 +20,9 @@ return [
             'binary' => '/opt/firefox/firefox-bin',
         ],
         // Comment that part if you do not need TWILIO SMS
-        \App\Action\SMSAction::class         => [
-            // Config in .env
-        ],
+        // \App\Action\SMSAction::class         => [
+        //     // Config in .env
+        // ],
         \App\Action\SoundAction::class       => [
             'text' => 'APARTEMENT AVAILABLE',
         ],

@@ -43,7 +43,9 @@ class BalticgruppenProvider extends Provider
     public function fetchAvailableResidence(): array
     {
 
-        $response = $this->client->request('GET', $this->domain . $this->endpoint);
+        $response = $this->client->request('GET', $this->domain . $this->url);
+
+
 
         $status = $response->getStatusCode(); // 200
 

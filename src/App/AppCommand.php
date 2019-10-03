@@ -80,7 +80,7 @@ class AppCommand extends Command
 
         // Start an infinite loop, wait 5 seconds betwwen each execution and output "Sleep..." on section 3
         (new Loop($section3))
-            ->setSecondsToWait($input->getOption('seconds-to-wait'))
+            ->setSecondsToWait((int)$input->getOption('seconds-to-wait'))
             ->runAndWait(
                 function ($loop) use ($section1, $section2, $statisticsTable, $input) {
 

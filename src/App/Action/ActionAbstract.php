@@ -15,6 +15,11 @@ abstract class ActionAbstract
         $this->config = $config;
     }
 
+    /**
+     * The action.
+     * @param  EntryInterface $object   The object
+     * @param  Provider       $provider The provider
+     */
     abstract public function run(EntryInterface $object, Provider $provider);
 
     public function getName()
