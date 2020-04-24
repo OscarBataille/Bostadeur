@@ -37,6 +37,6 @@ class BalticgruppenEntry implements EntryInterface
 
     public function getUrl(): string
     {
-        return $this->domain . 'tenant/dashboard';
+        return $this->domain . 'tenant';
     }
 }
